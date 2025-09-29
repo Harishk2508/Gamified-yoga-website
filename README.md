@@ -2,8 +2,6 @@
 
 A gamified yoga practice platform: web frontend + Python backend for pose detection, scoring, and simple persistence.
 
-> **Repository structure (high-level)**  
-> This README describes each top-level file and folder and gives instructions to run the project locally.
 
 ---
 
@@ -25,8 +23,6 @@ A gamified yoga practice platform: web frontend + Python backend for pose detect
 ````
 
 
-> The file and folder names above were taken from the repository listing. If any file has a different role than described, update the README accordingly. :contentReference[oaicite:6]{index=6}
-
 ---
 
 ## What each file/folder is for
@@ -37,7 +33,6 @@ Contains the static website files (HTML, CSS, JS). This is the gamified UI that 
 - `assets/`, `css/`, `js/` — styling, images and client-side code.
 **How it works:** the frontend captures user actions, shows pose references, score, gamified UI (points/badges), and pushes camera frames / keypoints or session metadata to the backend for analysis.
 
-*(Source: repository frontend folder listing.)* :contentReference[oaicite:7]{index=7}
 
 ### `backend/`
 Python code to run the server and pose-processing logic. Typical responsibilities:
@@ -46,7 +41,6 @@ Python code to run the server and pose-processing logic. Typical responsibilitie
 - Normalize landmarks, compute similarity to reference poses, generate scoring and feedback.
 - Interact with `yoga_platform.db` to persist sessions, scores, or user progress.
 
-*(Source: repository backend folder listing.)* :contentReference[oaicite:8]{index=8}
 
 ### `main.py`
 Top-level script — likely starts the backend (or integrates frontend/backend for local dev). If this script is the app entry, run it to launch the service (see run instructions below). :contentReference[oaicite:9]{index=9}
@@ -61,10 +55,9 @@ A SQLite database bundled in the repo. Likely contains tables for:
 - `poses` — reference pose templates,
 - `scores` — session scoring history.
 
-**Note:** Always avoid committing production user data to Git. If this DB contains sample/demo data, that’s fine; otherwise regenerate or sanitize before publishing. :contentReference[oaicite:11]{index=11}
 
 ### `requirements.txt`
-Python dependencies needed for the backend (e.g., `flask`/`fastapi`, `uvicorn`, `numpy`, `opencv-python`, `mediapipe`/`tflite-runtime` etc.). Install them in a virtualenv prior to running the backend. :contentReference[oaicite:12]{index=12}
+Python dependencies needed for the backend (e.g., `flask`/`fastapi`, `uvicorn`, `numpy`, `opencv-python`, `mediapipe`/`tflite-runtime` etc.). Install them in a virtualenv prior to running the backend. 
 
 ---
 
