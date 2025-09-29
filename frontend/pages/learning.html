@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Hub - Harish Yoga Center</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="/css/components.css">
+</head>
+<body>
+    <header class="dashboard-header">
+        <nav class="dashboard-nav">
+            <div class="nav-container">
+                <div class="nav-left">
+                    <a href="/home" class="back-link">← Back to Dashboard</a>
+                    <div class="logo">
+                        <h1>🧘‍♂️ Learning Hub</h1>
+                    </div>
+                </div>
+                <div class="nav-user">
+                    <span class="welcome-text"><span id="userName">User</span></span>
+                    <form action="/api/logout" method="post" style="display: inline;">
+                        <button type="submit" class="btn btn-outline btn-small">Logout</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="learning-main">
+        <div class="container">
+            <section class="learning-hero">
+                <h1>Yoga Learning Hub</h1>
+                <p>Master yoga fundamentals with comprehensive guides and tutorials</p>
+            </section>
+
+            <section class="learning-grid">
+                <div class="learning-card">
+                    <div class="learning-icon">📚</div>
+                    <h3>Pose Library</h3>
+                    <p>Complete guide to yoga poses with step-by-step instructions and benefits</p>
+                    <div class="learning-features">
+                        <span class="feature-tag">📖 50+ Poses</span>
+                        <span class="feature-tag">🎥 Video Guides</span>
+                        <span class="feature-tag">📋 Instructions</span>
+                    </div>
+                    <div class="learning-actions">
+                        <button class="btn btn-outline btn-large" disabled>Coming Soon</button>
+                    </div>
+                </div>
+
+                <div class="learning-card">
+                    <div class="learning-icon">🎓</div>
+                    <h3>Beginner Course</h3>
+                    <p>Start your yoga journey with our comprehensive beginner-friendly course</p>
+                    <div class="learning-features">
+                        <span class="feature-tag">📚 10 Lessons</span>
+                        <span class="feature-tag">⏱️ 20 mins each</span>
+                        <span class="feature-tag">🏆 Certificate</span>
+                    </div>
+                    <div class="learning-actions">
+                        <button class="btn btn-outline btn-large" disabled>Coming Soon</button>
+                    </div>
+                </div>
+
+                <div class="learning-card">
+                    <div class="learning-icon">🧘‍♀️</div>
+                    <h3>Meditation Guide</h3>
+                    <p>Learn various meditation techniques to enhance your practice</p>
+                    <div class="learning-features">
+                        <span class="feature-tag">🕯️ 5 Techniques</span>
+                        <span class="feature-tag">🎵 Audio Guides</span>
+                        <span class="feature-tag">⏰ Timer</span>
+                    </div>
+                    <div class="learning-actions">
+                        <button class="btn btn-outline btn-large" disabled>Coming Soon</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="coming-soon-notice">
+                <div class="notice-card">
+                    <h3>🚀 More Learning Content Coming Soon!</h3>
+                    <p>We're working hard to bring you comprehensive yoga learning materials. Stay tuned for exciting updates!</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="/js/common.js"></script>
+    <script src="/js/dashboard.js"></script>
+</body>
+</html>

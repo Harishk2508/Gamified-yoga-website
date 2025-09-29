@@ -1,0 +1,26 @@
+<!-- frontend/pages/ai_analyzer.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Pose Analyzer</title>
+    <link rel="stylesheet" href="/static/css/ai_analyzer.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Yoga AI Pose Analyzer</h2>
+        <form action="/ai_analyzer" method="post" enctype="multipart/form-data" class="analyze-form">
+            <label for="asana_name">Select Yoga Asana:</label>
+            <select name="asana_name" id="asana_name" required>
+                {% for asana in asanas %}
+                <option value="{{ asana }}">{{ asana }}</option>
+                {% endfor %}
+            </select>
+            <label for="upload_file">Upload Image:</label>
+            <input type="file" name="upload_file" id="upload_file" accept="image/*" required>
+            <button type="submit">Analyze</button>
+        </form>
+        <a href="/home">Back to Dashboard</a>
+    </div>
+</body>
+</html>

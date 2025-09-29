@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Harish Yoga Center</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/auth.css">
+    <link rel="stylesheet" href="/css/components.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <img src="../static/assets/images/logo.png" style = "width: 85px; height: auto; margin-top: 20px">
+                <h2>Join Our Community</h2>
+                <p>Start your AI-powered wellness journey today</p>
+            </div>
+
+            <!-- ERROR DISPLAY -->
+            {% if error %}
+            <div class="error-alert">
+                <span class="error-icon">⚠️</span>
+                <span class="error-text">{{ error }}</span>
+            </div>
+            {% endif %}
+
+            <form id="signupForm" action="/api/signup" method="post" class="auth-form">
+                <div class="form-group">
+                    <label for="full_name" class="form-label">Full Name</label>
+                    <input type="text" id="full_name" name="full_name" class="form-input" 
+                           value="{{ full_name or '' }}" autocomplete="name">
+                </div>
+
+                <div class="form-group">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" id="username" name="username" class="form-input" 
+                           value="{{ username or '' }}" required autocomplete="username">
+                </div>
+
+                <div class="form-group">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" id="email" name="email" class="form-input" 
+                           value="{{ email or '' }}" required autocomplete="email">
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" id="password" name="password" class="form-input" 
+                           required autocomplete="new-password">
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-large btn-full">Create Account</button>
+            </form>
+
+            <div class="auth-footer">
+                <p>Already have an account? <a href="/signin" class="link">Sign in here</a></p>
+                <p><a href="/" class="link">← Back to Home</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/common.js"></script>
+    <script src="/js/auth.js"></script>
+</body>
+</html>

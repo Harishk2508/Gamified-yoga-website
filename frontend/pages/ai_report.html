@@ -1,0 +1,55 @@
+<!-- frontend/pages/ai_report.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Report - {{ asana_name }}</title>
+    <link rel="stylesheet" href="/static/css/ai_analyzer.css">
+</head>
+<body>
+    <div class="report-container">
+        <h2>{{ asana_name }} - AI Analysis Report</h2>
+        <img src="{{ annotated_image }}" alt="Annotated Analysis" class="landmark-image">
+            <div class="scores">
+                <strong>Similarity Score:</strong> {{ similarity_score }}%
+                <div class="score-note">
+                    {% if similarity_score >= 90 %}
+                        <span style="color: #16a34a; font-weight: 500;">Excellent! You're performing this asana very well.</span>
+                    {% elif similarity_score >= 80 %}
+                        <span style="color: #f59e42; font-weight: 500;">
+                            Your pose is close, but there's likely an image quality issue, inverted pose, or slight mistake in your posture.
+                        </span>
+                    {% else %}
+                        <span style="color: #dc2626; font-weight: 500;">
+                            This does not match the reference asana. Please refer carefully to the asana image and correct your pose.
+                        </span>
+                    {% endif %}
+                </div>
+            </div>
+
+        <div class="corrections">
+            <h3>Corrections:</h3>
+            <ul>
+            {% if corrections and corrections|length > 0 %}
+                {% for corr in corrections %}
+                    <li>{{ corr }}</li>
+                {% endfor %}
+            {% else %}
+                <li>No corrections needed. Excellent execution!</li>
+            {% endif %}
+            </ul>
+        </div>
+
+        <div class="asana-info">
+            <h3>About {{ asana_name }}</h3>
+            <p>{{ asana_info }}</p>
+        </div>
+        <div class="feedback">
+            <h3>Personalized Feedback</h3>
+            <p>{{ feedback }}</p>
+        </div>
+        <a href="/ai_analyzer">Analyze Another Image</a>
+        <a href="/home">Back to Dashboard</a>
+    </div>
+</body>
+</html>

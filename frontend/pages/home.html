@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Harish Yoga Center</title>
+    
+    <!-- FIXED: Proper CSS loading order -->
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="/css/components.css">
+</head>
+<body>
+    <!-- Header Navigation -->
+    <header class="dashboard-header">
+        <nav class="dashboard-nav">
+            <div class="nav-container">
+                <div class="nav-left">
+                    <div class="logo">
+                        <h1>🧘 Harish Yoga</h1>
+                    </div>
+                    <div class="nav-links">
+                        <a href="/home" class="nav-link active">Dashboard</a>
+                        <a href="/learning" class="nav-link">Learning</a>
+                        <a href="/quiz" class="nav-link">Brain Tester</a>
+                        <a href="/ai_analyzer" class="nav-link">AI Assistant</a>
+                        <a href="/multiplayer" class="nav-link">Multiplayer</a> <!-- FIXED: Added multiplayer back -->
+                        <!-- NEW: Pose Detector Link -->
+                        <a href="/pose-detector" class="nav-link">Pose Detector</a>
+                    </div>
+                </div>
+                
+                <div class="nav-right">
+                    <!-- FIXED: Shows Loading... initially, updated by JavaScript -->
+                    <span class="welcome-text">Welcome back, <span id="userName">Loading...</span>!</span>
+                    
+                    <div class="profile-dropdown">
+                        <button class="profile-btn" id="profileBtn">
+                            <div class="profile-avatar">
+                                <!-- FIXED: Shows L initially, updated by JavaScript -->
+                                <span id="userInitial">L</span>
+                            </div>
+                            <!-- FIXED: Shows Loading... initially, updated by JavaScript -->
+                            <span class="profile-name" id="profileName">Loading...</span>
+                            <span class="dropdown-arrow">▼</span>
+                        </button>
+                        
+                        <div class="dropdown-menu" id="dropdownMenu">
+                            <a href="#" class="dropdown-item">
+                                <span class="dropdown-icon">👤</span>
+                                View Profile
+                            </a>
+                            <a href="#" class="dropdown-item">
+                                <span class="dropdown-icon">⚙️</span>
+                                Settings
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <form action="/api/logout" method="post" style="width: 100%;">
+                                <button type="submit" class="dropdown-item logout-btn">
+                                    <span class="dropdown-icon">🚪</span>
+                                    Logout
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+    <!-- Main Dashboard Content -->
+    <main class="dashboard-main">
+        <div class="container">
+            <!-- Hero Section -->
+            <section class="dashboard-hero">
+                <!-- FIXED: This will be updated by JavaScript to show actual user name -->
+                <h1>Your Wellness Dashboard</h1>
+                <p>Test your yoga knowledge, challenge friends, and elevate your practice</p>
+            </section>
+
+
+            <!-- Statistics Section -->
+            <section class="dashboard-stats">
+                <div class="stats-grid">
+                    <!-- FIXED: First stat card - Games Played (updated by JavaScript) -->
+                    <div class="stat-card">
+                        <div class="stat-icon">🎮</div>
+                        <div class="stat-content">
+                            <h3>0</h3> <!-- Will be updated by loadGamesPlayed() -->
+                            <p>Games Played</p>
+                        </div>
+                    </div>
+                    
+                    <!-- FIXED: Second stat card - Brain Score (updated by JavaScript) -->
+                    <div class="stat-card">
+                        <div class="stat-icon">🧠</div>
+                        <div class="stat-content">
+                            <h3 id="brainScore">0</h3> <!-- Will be updated by loadBrainScore() -->
+                            <p>Brain Score</p>
+                        </div>
+                    </div>
+                    
+                    <!-- FIXED: Third stat card - Knowledge Level (updated by JavaScript) -->
+                    <div class="stat-card">
+                        <div class="stat-icon">📚</div>
+                        <div class="stat-content">
+                            <h3>Beginner</h3> <!-- Will be updated by updateKnowledgeLevel() -->
+                            <p>Knowledge Level</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- Actions Section -->
+            <section class="dashboard-actions">
+                <h2>🌟 Explore Features</h2>
+                <div class="actions-grid">
+                    <!-- MULTIPLAYER CHALLENGE CARD -->
+                    <div class="action-card featured-card">
+                        <div class="action-icon">👥</div>
+                        <h3>Multiplayer Challenge</h3>
+                        <p>Compete with friends in real-time pose challenges with AI scoring</p>
+                        <div class="game-features">
+                            <span class="feature-tag">AI Scoring</span>
+                            <span class="feature-tag">2 Players</span>
+                            <span class="feature-tag">5 mins</span>
+                        </div>
+                        <div class="game-actions">
+                            <button class="btn btn-primary btn-large" onclick="navigateToMultiplayer()">Start Challenge</button>
+                        </div>
+                    </div>
+
+
+                    <!-- BRAIN TESTER CARD -->
+                    <div class="action-card featured-card brain-tester-card">
+                        <div class="action-icon">🧠</div>
+                        <h3>Yoga Brain Tester</h3>
+                        <p>Test your yoga knowledge with fun quizzes and brain challenges</p>
+                        <div class="game-features">
+                            <span class="feature-tag">Quiz</span>
+                            <span class="feature-tag">Timed</span>
+                            <span class="feature-tag">Score-Driven</span>
+                        </div>
+                        <div class="game-actions">
+                            <a href="/quiz" class="btn btn-primary btn-large">Start Quiz</a>
+                        </div>
+                    </div>
+
+
+                    <!-- AI ASSISTANT CARD -->
+                    <div class="action-card featured-card ai-featured-card" style="position: relative;">
+                        <div class="action-icon">🤖</div>
+                        <h3>AI Pose Assistant</h3>
+                        <p>Get real-time feedback on your poses with AI technology</p>
+                        <div class="game-features">
+                            <span class="feature-tag">Pose Analysis</span>
+                            <span class="feature-tag">Similarity Score</span>
+                            <span class="feature-tag">ML Powered</span>
+                        </div>
+                        <div class="game-actions ai-game-actions" style="margin-top:18px;">
+                            <a class="btn btn-primary btn-large" href="/ai_analyzer" id="aiTryNowBtn">Try Now</a>
+                        </div>
+                    </div>
+
+                    <!-- NEW: POSE DETECTOR CARD -->
+                    <div class="action-card featured-card pose-detector-card">
+                        <div class="action-icon">📸</div>
+                        <h3>Pose Detector</h3>
+                        <p>Upload images or use real-time camera to detect and analyze yoga poses</p>
+                        <div class="game-features">
+                            <span class="feature-tag">Image Upload</span>
+                            <span class="feature-tag">Real-time</span>
+                            <span class="feature-tag">30+ Asanas</span>
+                        </div>
+                        <div class="game-actions">
+                            <a href="/pose-detector" class="btn btn-primary btn-large">Detect Poses</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+
+    <!-- Footer -->
+    <footer class="dashboard-footer">
+        <div class="container">
+            <p>&copy; 2025 Harish Yoga Center. Your wellness journey continues.</p>
+        </div>
+    </footer>
+
+
+    <!-- FIXED: Proper script loading -->
+    <script src="/js/common.js"></script>
+    <script src="/js/dashboard.js"></script>
+</body>
+</html>

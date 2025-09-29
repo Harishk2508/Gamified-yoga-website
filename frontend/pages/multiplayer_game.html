@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yoga Challenge Game - AI Competition</title>
+    <link rel="stylesheet" href="/css/multiplayer_common.css">
+    <link rel="stylesheet" href="/css/multiplayer_game.css">
+    <link rel="stylesheet" href="/css/multiplayer_animations.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+</head>
+<body>
+    <div class="container game-container">
+        
+        <!-- Pre-Countdown Screen -->
+        <div id="preCountdown" class="card countdown-card hidden">
+            <div class="countdown-container">
+                <h2>🧘 Get Ready!</h2>
+                <div class="countdown-circle">
+                    <span id="countdownNumber" class="countdown-number">5</span>
+                </div>
+                <div class="round-info">
+                    <p>Round <span id="preRoundNumber">1</span> pose coming up...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Interface -->
+        <div id="gameInterface" class="card game-card hidden">
+            <!-- Game Header -->
+            <div class="game-header">
+                <div class="round-info-header">
+                    <h2>Round <span id="currentRound">1</span></h2>
+                    <p>Round <span id="roundNumber">1</span> of <span id="totalRounds">5</span></p>
+                    <span class="game-mode-badge" id="gameModeDisplay">Normal Mode</span>
+                </div>
+                
+                <div class="timer-section">
+                    <div class="timer-circle">
+                        <span id="timerText" class="timer-text">5:00</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Current Pose Display -->
+            <div class="pose-display">
+                <h3>Current Pose:</h3>
+                <div class="asana-name" id="asanaName">Loading...</div>
+            </div>
+
+            <!-- Players Section -->
+            <div class="players-section">
+                <div class="player-card">
+                    <h4 id="player1Name" class="player-name">Player 1</h4>
+                    <div id="player1Indicator" class="player-status" style="color:#000">⏳ Preparing</div>
+                    <div class="player-score">
+                        <span>Score:</span>
+                        <span id="player1Score">0</span>
+                    </div>
+                </div>
+                
+                <!-- FIXED: vs-divider without elliptical shadow -->
+                <div class="vs-divider">VS</div>
+                
+                <div class="player-card">
+                    <h4 id="player2Name" class="player-name">Player 2</h4>
+                    <div id="player2Indicator" class="player-status" style="color:#000">⏳ Preparing</div>
+                    <div class="player-score">
+                        <span>Score:</span>
+                        <span id="player2Score">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upload Section -->
+            <div class="upload-section">
+                <div id="uploadArea" class="upload-area" onclick="triggerFileInput()">
+                    <div id="uploadContent" class="upload-content">
+                        <div class="upload-icon">📸</div>
+                        <h3>Click to Upload Your Pose</h3>
+                        <p>JPG, PNG supported • Max 10MB</p>
+                    </div>
+                    
+                    <div id="uploadPreview" class="upload-preview hidden">
+                        <!-- Preview content will be inserted here -->
+                    </div>
+                </div>
+                
+                <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="handleImageSelect(event)">
+                
+                <button id="submitBtn" class="btn btn-success hidden" onclick="submitPose()">
+                    ✅ Submit My Pose
+                </button>
+            </div>
+
+            <!-- Reference Button -->
+            <div class="reference-section">
+                <button id="referenceBtn" class="btn btn-secondary" onclick="requestReference()">
+                    📷 Reference Image
+                </button>
+            </div>
+        </div>
+
+        <!-- Round Results -->
+        <div id="roundResults" class="card results-card hidden">
+            <div class="results-header">
+                <h2>📊 Round Results</h2>
+                <h3 id="resultAsanaName" class="result-asana">Pose Name</h3>
+            </div>
+            
+            <div class="round-scores">
+                <div class="player-result">
+                    <h4 id="player1ResultName">Player 1</h4>
+                    <div class="score-display" id="player1ResultScore">0.0</div>
+                </div>
+                
+                <div class="vs-separator">VS</div>
+                
+                <div class="player-result">
+                    <h4 id="player2ResultName">Player 2</h4>
+                    <div class="score-display" id="player2ResultScore">0.0</div>
+                </div>
+            </div>
+            
+            <div class="total-scores">
+                <h3>💯 Total Scores</h3>
+                <div class="total-score-grid">
+                    <div class="total-score-item">
+                        <span id="totalPlayer1Name">Player 1</span>
+                        <div class="total-score-value" id="totalPlayer1Score">0</div>
+                    </div>
+                    <div class="total-score-item">
+                        <span id="totalPlayer2Name">Player 2</span>
+                        <div class="total-score-value" id="totalPlayer2Score">0</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="results-actions">
+                <button class="btn btn-primary" onclick="nextRound()">
+                    ➡️ Next Round
+                </button>
+            </div>
+        </div>
+
+        <!-- Reference Modal -->
+        <div id="referenceModal" class="modal hidden">
+            <div class="modal-content">
+                <!-- Warning Step -->
+                <div id="referenceWarningStep" class="modal-step">
+                    <div class="modal-header">
+                        <h3>📷 Reference Image</h3>
+                        <button class="modal-close" onclick="closeReferenceModal()">&times;</button>
+                    </div>
+                    
+                    <div class="modal-body">
+                        <div class="warning-content">
+                            <div class="warning-icon">⚠️</div>
+                            <h4>Reference Penalty</h4>
+                            <p>Using the reference image will deduct <strong>2 points</strong> from your score for this round.</p>
+                            <p>However, it's a great learning tool to understand proper pose alignment!</p>
+                        </div>
+                        
+                        <div class="current-pose">
+                            <strong>Current Pose:</strong>
+                            <span id="referenceAsanaName">Unknown Pose</span>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" onclick="closeReferenceModal()">
+                            ❌ Cancel
+                        </button>
+                        <button class="btn btn-warning" onclick="acceptPenaltyAndShowImage()">
+                            ✅ Accept Penalty & View
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Image Step -->
+                <div id="referenceImageStep" class="modal-step hidden">
+                    <div class="modal-header">
+                        <h3>📷 Reference Image (-2 points)</h3>
+                        <button class="modal-close" onclick="closeReferenceModal()">&times;</button>
+                    </div>
+                    
+                    <div class="modal-body">
+                        <div id="referenceImageContent" class="reference-image-content">
+                            <!-- Reference image will be loaded here -->
+                        </div>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" onclick="closeReferenceModal()">
+                            ✅ Got it, Let's Play!
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loadingState" class="card loading-card">
+            <div class="loading-content">
+                <div class="spinner"></div>
+                <h2>⏳ Loading Game...</h2>
+                <p>Preparing your AI-powered yoga challenge...</p>
+            </div>
+        </div>
+
+        <!-- Error State -->
+        <div id="errorState" class="card error-card hidden">
+            <div class="error-content">
+                <div class="error-icon">❌</div>
+                <h2>Game Error</h2>
+                <p id="errorMessage">Something went wrong...</p>
+                
+                <div class="error-actions">
+                    <button class="btn btn-primary" onclick="refreshGame()">
+                        🔄 Refresh Game
+                    </button>
+                    <button class="btn btn-secondary" onclick="goToHome()">
+                        🏠 Back to Home
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/js/multiplayer_common.js"></script>
+    <script src="/js/multiplayer_game.js"></script>
+    
+    <script>
+        // Additional page-specific initialization
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🎮 Multiplayer game page loaded');
+            
+            // Add mobile-specific handling
+            if (window.innerWidth <= 768) {
+                document.body.classList.add('mobile-view');
+            }
+            
+            // Prevent zoom on double tap for mobile
+            let lastTouchEnd = 0;
+            document.addEventListener('touchend', function (event) {
+                const now = (new Date()).getTime();
+                if (now - lastTouchEnd <= 300) {
+                    event.preventDefault();
+                }
+                lastTouchEnd = now;
+            }, false);
+            
+            // Add connection status indicator
+            const connectionStatus = document.createElement('div');
+            connectionStatus.className = 'connection-status';
+            connectionStatus.id = 'connectionStatus';
+            connectionStatus.innerHTML = '🟢 Connected';
+            document.body.appendChild(connectionStatus);
+        });
+        
+        // Handle orientation changes on mobile
+        window.addEventListener('orientationchange', function() {
+            setTimeout(() => {
+                // Recalculate layout after orientation change
+                window.scrollTo(0, 0);
+                
+                // Update mobile view class
+                if (window.innerWidth <= 768) {
+                    document.body.classList.add('mobile-view');
+                } else {
+                    document.body.classList.remove('mobile-view');
+                }
+            }, 100);
+        });
+        
+        // Prevent accidental page navigation during game
+        window.addEventListener('beforeunload', function(e) {
+            if (document.getElementById('gameInterface').style.display !== 'none') {
+                e.preventDefault();
+                e.returnValue = 'Game is in progress. Are you sure you want to leave?';
+                return e.returnValue;
+            }
+        });
+        
+        // Enhanced error handling
+        window.addEventListener('error', function(e) {
+            console.error('Game page error:', e.error);
+            
+            // Show user-friendly error for certain types
+            if (e.error && e.error.message) {
+                if (e.error.message.includes('network') || e.error.message.includes('fetch')) {
+                    showError('Network connection issue. Please check your internet and refresh.');
+                } else if (e.error.message.includes('session') || e.error.message.includes('auth')) {
+                    showError('Session expired. Redirecting to login...');
+                    setTimeout(() => {
+                        window.location.href = '/signin';
+                    }, 2000);
+                }
+            }
+        });
+        
+        console.log('✅ Multiplayer game page ready - Integrated with base module');
+    </script>
+    
+    <style>
+        /* FIXED: VS divider without elliptical shadow */
+        .vs-divider {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+            opacity: 0.8;
+            /* REMOVED: All background, padding, border-radius, box-shadow properties */
+        }
+        
+        /* Mobile-specific styles */
+        @media (max-width: 768px) {
+            .game-container {
+                padding: 10px;
+            }
+            
+            .game-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .players-section {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .vs-divider {
+                transform: rotate(90deg);
+                margin: 10px 0;
+                /* STILL NO BACKGROUND OR SHADOW */
+            }
+            
+            .upload-area {
+                min-height: 200px;
+            }
+            
+            .modal-content {
+                margin: 20px;
+                max-height: calc(100vh - 40px);
+                overflow-y: auto;
+            }
+        }
+        
+        /* Connection status indicator */
+        .connection-status {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        .connection-status.disconnected {
+            background: rgba(220, 53, 69, 0.9);
+            animation: pulse 1s infinite;
+        }
+        
+        .connection-status.connected {
+            background: rgba(40, 167, 69, 0.9);
+        }
+        
+        /* Enhanced loading spinner */
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        /* Prevent text selection during game */
+        .game-interface {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+        /* Enhanced button feedback */
+        .btn:active {
+            transform: scale(0.98);
+        }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+    </style>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yoga Pose Quiz</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/quiz.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="quiz-container">
+        <!-- Quiz Header -->
+        <div class="quiz-header">
+            <button class="back-btn" onclick="goHome()">
+                <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <div class="quiz-info">
+                <h1>🧘‍♀️ Yoga Pose Quiz 🧘‍♂️</h1>
+                <div class="quiz-stats">
+                    <span class="question-counter">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></span>
+                    <span class="score-display">Score: <span id="currentScore">0</span></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Welcome Screen -->
+        <div class="quiz-screen active" id="welcomeScreen">
+            <div class="welcome-card">
+                <div class="welcome-icon">🧠</div>
+                <h2>Test Your Yoga Knowledge!</h2>
+                <p>Look at the yoga pose images and choose the correct Sanskrit name from the options provided.</p>
+                <div class="quiz-rules">
+                    <h3>🎯 Quiz Rules:</h3>
+                    <ul>
+                        <li>✅ 5 random yoga poses</li>
+                        <li>🎯 Multiple choice questions</li>
+                        <li>⏱️ No time limit - take your time</li>
+                        <li>🏆 +10 points for correct answers</li>
+                        <li>📈 Track your knowledge level</li>
+                    </ul>
+                </div>
+                <button class="start-btn" onclick="startQuiz()">
+                    <i class="fas fa-play"></i> Start Quiz
+                </button>
+            </div>
+        </div>
+
+        <!-- Quiz Question Screen -->
+        <div class="quiz-screen" id="questionScreen">
+            <div class="question-card">
+                <div class="pose-image-container">
+                    <img id="poseImage" src="" alt="Yoga Pose" class="pose-image">
+                    <div class="image-loading" id="imageLoading">
+                        <div class="loading-spinner"></div>
+                        <p>Loading pose...</p>
+                    </div>
+                </div>
+                
+                <div class="question-content">
+                    <h2 class="question-title">What is the name of this yoga pose?</h2>
+                    
+                    <div class="answer-options" id="answerOptions">
+                        <!-- Options will be dynamically generated -->
+                    </div>
+                    
+                    <div class="question-feedback hidden" id="questionFeedback">
+                        <div class="feedback-content">
+                            <span class="feedback-icon" id="feedbackIcon"></span>
+                            <span class="feedback-text" id="feedbackText"></span>
+                        </div>
+                    </div>
+                    
+                    <button class="next-btn hidden" id="nextBtn" onclick="nextQuestion()">
+                        Next Question <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div class="quiz-screen" id="resultsScreen">
+            <div class="results-card">
+                <div class="results-header">
+                    <div class="trophy-icon" id="trophyIcon">🏆</div>
+                    <h2>Quiz Complete!</h2>
+                    <div class="final-score">
+                        <span>Your Score: </span>
+                        <span id="finalScore">0</span> / <span id="maxScore">50</span>
+                    </div>
+                </div>
+                
+                <div class="performance-level" id="performanceLevel">
+                    <h3 id="levelTitle">Yoga Novice</h3>
+                    <p id="levelDescription">Keep practicing to improve your yoga knowledge!</p>
+                </div>
+                
+                <div class="results-breakdown">
+                    <h3>📊 Question Breakdown:</h3>
+                    <div class="breakdown-list" id="breakdownList">
+                        <!-- Results will be dynamically generated -->
+                    </div>
+                </div>
+                
+                <div class="results-actions">
+                    <!-- <button class="action-btn primary" onclick="resetQuiz()">
+                        <i class="fas fa-redo"></i> Try Again
+                    </button> -->
+                    <button class="action-btn secondary" onclick="goHome()">
+                        <i class="fas fa-home"></i> Back to Games
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Screen -->
+        <div class="loading-overlay hidden" id="loadingOverlay">
+            <div class="loading-content">
+                <div class="loading-spinner-large"></div>
+                <h2>Preparing Quiz...</h2>
+                <p>Loading yoga poses and questions...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/common.js"></script>
+    <script src="../js/quiz.js"></script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - Harish Yoga Center</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/auth.css">
+    <link rel="stylesheet" href="/css/components.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <img src="../static/assets/images/logo.png" style = "width: 85px; height: auto; margin-top: 20px">
+                <h2>Welcome Back</h2>
+                <p>Sign in to continue your wellness journey</p>
+            </div>
+
+            <!-- ERROR DISPLAY -->
+            {% if error %}
+            <div class="error-alert">
+                <span class="error-icon">⚠️</span>
+                <span class="error-text">{{ error }}</span>
+            </div>
+            {% endif %}
+
+            <form id="signinForm" action="/api/signin" method="post" class="auth-form">
+                <div class="form-group">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" id="username" name="username" class="form-input" 
+                           value="{{ username or '' }}" required autocomplete="username">
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" id="password" name="password" class="form-input" 
+                           required autocomplete="current-password">
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-large btn-full">Sign In</button>
+            </form>
+
+            <div class="auth-footer">
+                <p>Don't have an account? <a href="/signup" class="link">Sign up here</a></p>
+                <p><a href="/" class="link">← Back to Home</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/common.js"></script>
+    <script src="/js/auth.js"></script>
+</body>
+</html>

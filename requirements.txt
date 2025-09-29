@@ -1,0 +1,10 @@
+fastapi==0.115.0
+uvicorn==0.25.0
+mediapipe==0.10.20
+opencv-python==4.11.0.86
+numpy==1.26.4
+aiofiles==23.2.1
+pydantic==2.9.2
+Pillow==10.4.0
+scipy==1.14.0
+python-multipart==0.0.9

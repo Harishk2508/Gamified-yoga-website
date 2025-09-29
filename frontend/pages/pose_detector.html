@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pose Detector - Harish Yoga Center</title>
+    
+    <!-- FIXED: Proper CSS loading order - same as home.html -->
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/pose_detector.css">
+</head>
+<body>
+    <!-- Header Navigation - EXACT SAME AS HOME.HTML -->
+    <header class="dashboard-header">
+        <nav class="dashboard-nav">
+            <div class="nav-container">
+                <div class="nav-left">
+                    <div class="logo">
+                        <h1>🧘 Harish Yoga</h1>
+                    </div>
+                    <div class="nav-links">
+                        <a href="/home" class="nav-link">Dashboard</a>
+                        <a href="/learning" class="nav-link">Learning</a>
+                        <a href="/quiz" class="nav-link">Brain Tester</a>
+                        <a href="/ai_analyzer" class="nav-link">AI Assistant</a>
+                        <a href="/multiplayer" class="nav-link">Multiplayer</a>
+                        <a href="/pose-detector" class="nav-link active">Pose Detector</a>
+                    </div>
+                </div>
+                
+                <div class="nav-right">
+                    <!-- FIXED: Shows Loading... initially, updated by JavaScript -->
+                    <span class="welcome-text">Welcome back, <span id="userName">Loading...</span>!</span>
+                    
+                    <div class="profile-dropdown">
+                        <button class="profile-btn" id="profileBtn">
+                            <div class="profile-avatar">
+                                <!-- FIXED: Shows L initially, updated by JavaScript -->
+                                <span id="userInitial">L</span>
+                            </div>
+                            <!-- FIXED: Shows Loading... initially, updated by JavaScript -->
+                            <span class="profile-name" id="profileName">Loading...</span>
+                            <span class="dropdown-arrow">▼</span>
+                        </button>
+                        
+                        <div class="dropdown-menu" id="dropdownMenu">
+                            <a href="#" class="dropdown-item">
+                                <span class="dropdown-icon">👤</span>
+                                View Profile
+                            </a>
+                            <a href="#" class="dropdown-item">
+                                <span class="dropdown-icon">⚙️</span>
+                                Settings
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <form action="/api/logout" method="post" style="width: 100%;">
+                                <button type="submit" class="dropdown-item logout-btn">
+                                    <span class="dropdown-icon">🚪</span>
+                                    Logout
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pose-detector-main">
+        <div class="container">
+            <!-- Header Section -->
+            <section class="header-section">
+                <h1 class="page-title">📸 Pose Detector</h1>
+                <p class="page-subtitle">Analyze your yoga poses using AI technology</p>
+            </section>
+
+            <!-- Detection Mode Selection -->
+            <section class="mode-selection">
+                <div class="mode-buttons">
+                    <button class="mode-btn active" id="imageMode" onclick="switchMode('image')">
+                        <div class="mode-icon">🖼️</div>
+                        <span>Upload Image</span>
+                    </button>
+                    <button class="mode-btn" id="realtimeMode" onclick="switchMode('realtime')">
+                        <div class="mode-icon">📹</div>
+                        <span>Real-time Camera</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Image Upload Section -->
+            <section class="detection-section" id="imageSection">
+                <div class="upload-area">
+                    <div class="upload-box" id="uploadBox" ondrop="handleDrop(event)" ondragover="handleDragOver(event)">
+                        <div class="upload-content">
+                            <div class="upload-icon">📤</div>
+                            <h3>Upload Your Yoga Pose Image</h3>
+                            <p>Drag and drop an image here, or click to select</p>
+                            <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
+                                Choose File
+                            </button>
+                            <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="handleFileSelect(event)">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Image Preview and Results -->
+                <div class="preview-section" id="previewSection" style="display: none;">
+                    <div class="preview-container">
+                        <img id="previewImage" alt="Uploaded pose" class="preview-img">
+                        <button class="analyze-btn" id="analyzeBtn" onclick="analyzeImage()">
+                            Analyze Pose
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Real-time Camera Section -->
+            <section class="detection-section" id="realtimeSection" style="display: none;">
+                <div class="camera-container">
+                    <video id="cameraFeed" autoplay playsinline></video>
+                    <canvas id="analysisCanvas"></canvas>
+                    <div class="camera-controls">
+                        <button class="control-btn" id="startCamera" onclick="startCamera()">
+                            <span class="btn-icon">📹</span>
+                            Start Camera
+                        </button>
+                        <button class="control-btn" id="stopCamera" onclick="stopCamera()" style="display: none;">
+                            <span class="btn-icon">⏹️</span>
+                            Stop Camera
+                        </button>
+                        <button class="control-btn" id="captureBtn" onclick="captureFrame()" style="display: none;">
+                            <span class="btn-icon">📸</span>
+                            Capture & Analyze
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section class="results-section" id="resultsSection" style="display: none;">
+                <div class="results-container">
+                    <h2 class="results-title">Analysis Results</h2>
+                    
+                    <div class="result-card">
+                        <div class="result-header">
+                            <h3 id="detectedPose">-</h3>
+                            <div class="confidence-badge" id="confidenceBadge">-</div>
+                        </div>
+                        
+                        <div class="result-details">
+                            <div class="similarity-score">
+                                <span class="score-label">Similarity Score:</span>
+                                <span class="score-value" id="similarityScore">-</span>
+                            </div>
+                            
+                            <div class="feedback-text" id="feedbackText">
+                                Analyzing your pose...
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="suggestions-card" id="suggestionsCard" style="display: none;">
+                        <h4>💡 Improvement Suggestions</h4>
+                        <ul id="suggestionsList"></ul>
+                    </div>
+
+                    <div class="top-matches" id="topMatches" style="display: none;">
+                        <h4>🎯 Top 5 Matches</h4>
+                        <div class="matches-list" id="matchesList"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Loading Overlay -->
+            <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+                <div class="loading-content">
+                    <div class="loading-spinner"></div>
+                    <p>Analyzing your pose...</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FIXED: Same script loading order as home.html -->
+    <script src="/js/common.js"></script>
+    <script src="/js/dashboard.js"></script>
+    <script src="/js/pose_detector.js"></script>
+</body>
+</html>
