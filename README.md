@@ -37,13 +37,13 @@ Contains the static website files (HTML, CSS, JS). This is the gamified UI that 
 ### `backend/`
 Python code to run the server and pose-processing logic. Typical responsibilities:
 - Start a web server (Flask/FastAPI) with endpoints to accept keypoint data or video/frames.
-- Load model/task files (`pose_landmarker_heavy.task`, `hand_landmarker.task`) to perform landmark detection if the backend does detection.
+- Load model/task files (`pose_landmarker_heavy.task`, `hand_landmarker.task`) to perform landmark detection.
 - Normalize landmarks, compute similarity to reference poses, generate scoring and feedback.
 - Interact with `yoga_platform.db` to persist sessions, scores, or user progress.
 
 
 ### `main.py`
-Top-level script — likely starts the backend (or integrates frontend/backend for local dev). If this script is the app entry, run it to launch the service (see run instructions below). :contentReference[oaicite:9]{index=9}
+Top-level script — likely starts the backend (or integrates frontend/backend for local dev).
 
 ### `hand_landmarker.task` and `pose_landmarker_heavy.task`
 Pre-built model/task files — these are typically Mediapipe/TF Lite Task artifacts that can be loaded by the appropriate SDK (for example MediaPipe Tasks API or TensorFlow Lite Task library) to run on-device landmark detection. They allow fast hand and pose landmark extraction without training from scratch. :contentReference[oaicite:10]{index=10}
