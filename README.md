@@ -1,23 +1,3 @@
-
-# Gamified-yoga-website
-
-**A gamified yoga practice web app with pose-sensing backend and a static/JS frontend.**
-This project contains a simple frontend (web UI) and a Python backend that leverages prebuilt pose/hand landmarker task files (Mediapipe-style `.task` files), a small local SQLite database, and a `requirements.txt` for dependencies. The repo structure and filenames were taken from the repository listing. ([GitHub][1])
-
----
-
-## Quick highlights
-
-* Frontend: static site with HTML/CSS/JS (served as static files). ([GitHub][2])
-* Backend: Python app(s) to process keypoints, score similarity, and expose any REST endpoints (project root shows `backend` folder). ([GitHub][3])
-* Pretrained task files: `hand_landmarker.task` and `pose_landmarker_heavy.task` — likely Mediapipe/TF Lite task files used for landmark detection. ([GitHub][1])
-* Local database: `yoga_platform.db` (SQLite) — likely used to persist user or pose session data. ([GitHub][1])
-
----
-
-## Recommended `README.md` (paste into your repo)
-
-```markdown
 # Gamified Yoga Website
 
 A gamified yoga practice platform: web frontend + Python backend for pose detection, scoring, and simple persistence.
@@ -31,19 +11,19 @@ A gamified yoga practice platform: web frontend + Python backend for pose detect
 
 ```
 
-.
-├── backend/                       # Python backend code (API, pose-processing, utils)
-├── frontend/                      # Static site (HTML/CSS/JS) — the user-facing gamified UI
-├── data/                          # Pose data and JSON examples (poses / references)
-├── **pycache**/                   # Python caches (ignored in git normally)
+├── backend/ # Python backend code (API, pose-processing, utils)
+├── frontend/ # Static site (HTML/CSS/JS) — the user-facing gamified UI
+├── data/ # Pose data and JSON examples (poses / references)
+├── pycache/ # Python caches (ignored in git normally)
 ├── .gitignore
-├── main.py                        # Top-level launcher / integration script (if present)
-├── hand_landmarker.task           # Prebuilt hand landmarker task file (Mediapipe/TF Lite task)
-├── pose_landmarker_heavy.task     # Prebuilt pose landmarker / heavy model task file
-├── requirements.txt               # Python dependencies
-├── yoga_platform.db               # SQLite DB with app tables (users/sessions/poses)
+├── main.py # Top-level launcher / integration script (if present)
+├── hand_landmarker.task # Prebuilt hand landmarker task file (Mediapipe/TF Lite task)
+├── pose_landmarker_heavy.task # Prebuilt pose landmarker / heavy model task file
+├── requirements.txt # Python dependencies
+├── yoga_platform.db # SQLite DB with app tables (users/sessions/poses)
 
 ````
+
 
 > The file and folder names above were taken from the repository listing. If any file has a different role than described, update the README accordingly. :contentReference[oaicite:6]{index=6}
 
@@ -96,42 +76,20 @@ Python dependencies needed for the backend (e.g., `flask`/`fastapi`, `uvicorn`, 
    ```bash
    git clone https://github.com/Harishk2508/Gamified-yoga-website.git
    cd Gamified-yoga-website
-````
 
 2. Create & activate a Python virtual environment (recommended):
 
-   ```bash
-   python3 -m venv .venv
-   source .venv/bin/activate   # macOS / Linux
-   .venv\Scripts\activate      # Windows (PowerShell)
-   ```
+python3 -m venv .venv
+source .venv/bin/activate   # macOS / Linux
+.venv\Scripts\activate      # Windows (PowerShell)
 
 3. Install dependencies:
 
-   ```bash
-   pip install -r requirements.txt
-   ```
+pip install -r requirements.txt
 
 4. Backend:
 
-   * If `main.py` is the app launcher:
-
-     ```bash
-     python main.py
-     ```
-   * If backend has `app.py` with FastAPI:
-
-     ```bash
-     uvicorn backend.app:app --reload
-     ```
-   * If using Flask:
-
-     ```bash
-     export FLASK_APP=backend.app
-     flask run
-     ```
-
-   (Adjust the command if the actual backend uses a different entrypoint.)
+uvicorn backend.app:app --reload
 
 5. Frontend:
 
@@ -183,9 +141,6 @@ If you want to submit changes:
 
 ## Contact / License
 
-Add a license file (e.g., `MIT`) if you want open source contributions. Add contact/author lines here.
-
-```
 
 ---
 
@@ -204,8 +159,3 @@ Would you like me to:
 2. Or fetch the raw files from GitHub (I can try again to pull `raw.githubusercontent.com` URLs) and produce a fully exact README with concrete run commands and endpoint descriptions? **(I already attempted; it failed earlier — I can try again if you prefer)**
 
 Tell me which option you prefer (or paste the files) and I’ll finalize the README exactly to your code.
-```
-
-[1]: https://github.com/Harishk2508/Gamified-yoga-website "GitHub - Harishk2508/Gamified-yoga-website"
-[2]: https://github.com/Harishk2508/Gamified-yoga-website/tree/main/frontend "Gamified-yoga-website/frontend at main · Harishk2508/Gamified-yoga-website · GitHub"
-[3]: https://github.com/Harishk2508/Gamified-yoga-website/tree/main/backend "Gamified-yoga-website/backend at main · Harishk2508/Gamified-yoga-website · GitHub"
